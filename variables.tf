@@ -7,7 +7,7 @@ variable "ami" {
 variable "env" {
   type        = string
   description = "The environment for the EC2 instance"
-  default     = "pro"
+  default     = "dev"
 }
 
 variable "default_root_volume_size" {

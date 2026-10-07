@@ -27,6 +27,10 @@ provider "aws" {
 resource "aws_key_pair" "terra-key" {
   key_name   = "terra-key"
   public_key = file("terra-key-ec2.pub")
+  tags = {
+    Name = "terra-key"
+    Environment = var.env
+  }
 }
 
 # vpc and security group
@@ -83,7 +87,6 @@ resource "aws_security_group" "allow_ssh" {
 resource "aws_instance" "my-tf-ec2" {
   for_each = tomap({
     dd_instance = "t2.nano"
-    sp_instance = "t2.nano"
   })
 
   key_name        = aws_key_pair.terra-key.key_name
@@ -97,5 +100,6 @@ resource "aws_instance" "my-tf-ec2" {
   }
   tags = {
     Name = each.key
+    Environment = var.env
   }
 }
